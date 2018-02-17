@@ -19,16 +19,20 @@ public class losujMape extends JFrame implements ActionListener
 	JButton bExit;
 	JLabel lHeader;
 	JLabel lVersion;
+	JLabel lFactionOne;
+	JLabel lFactionTwo;
+	JLabel lMap;
 	JTextArea taInstruction;
 	JTable tFactions;
 	JTable tMaps;
 	
+
 	
 	
 		public losujMape()
 		{
 			setSize(500,400);
-			setTitle("M&F");
+			setTitle("Maps & Factions for WFAS by Detek");
 			setLayout(null);
 			setResizable(false);
 			
@@ -51,6 +55,7 @@ public class losujMape extends JFrame implements ActionListener
 			bExport.setBounds(50, 190, 150, 25);
 			add(bExport);
 			bExport.addActionListener(this);
+			bExport.setEnabled(false);
 			
 			bInstruction = new JButton("Instrukcja");
 			bInstruction.setBounds(50, 220, 150, 25);
@@ -87,16 +92,28 @@ public class losujMape extends JFrame implements ActionListener
 			tFactions= new JTable(pokazF.tablica, pokazF.naglowek);
 			tFactions.setBounds(230, 110, 225, 65);
 			tFactions.setVisible(false);
-			add(tFactions);
+			add(tFactions);		
 			
+			lFactionOne = new JLabel("Frakcja 1");
+			lFactionOne.setBounds(250, 110, 150, 50);
+			lFactionOne.setVisible(false);
+			add(lFactionOne);
 			
+			lFactionTwo = new JLabel("Frakcja 2");
+			lFactionTwo.setBounds(350, 110, 150, 50);
+			lFactionTwo.setVisible(false);
+			add(lFactionTwo);
+			
+			lMap = new JLabel("Mapa");
+			lMap.setBounds(300, 130, 150, 50);
+			lMap.setVisible(false);
+			add(lMap);
 			
 		}
-		
-		
-		
+			
 		public static void main(String[] args) 
 		{
+			
 			losujMape moje_okno = new losujMape();
 			moje_okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			moje_okno.setVisible(true);					
@@ -114,6 +131,26 @@ public class losujMape extends JFrame implements ActionListener
 			}
 			else if(source==bRandomMF)
 			{
+				lFactionOne.setVisible(true);
+				lFactionTwo.setVisible(true);
+				lMap.setVisible(true);
+				
+				losujFM randomMF = new losujFM();
+				String[] frakcja = new String[2];
+				String mapa = new String();
+				
+				randomMF.losujNumeryFrakcji();
+				randomMF.losujNumerMapy();
+				frakcja = randomMF.pobierzNazweFrakcji();
+				mapa = randomMF.pobierzNazweMapy();
+				
+				lFactionOne.setText(frakcja[0]);
+				lFactionTwo.setText(frakcja[1]);
+				lMap.setText(mapa);
+				
+				taInstruction.setVisible(false);
+				tFactions.setVisible(false);
+				tMaps.setVisible(false);
 				
 			}
 			else if(source==bShowMaps)
@@ -123,6 +160,9 @@ public class losujMape extends JFrame implements ActionListener
 				
 				taInstruction.setVisible(false);
 				tFactions.setVisible(false);
+				lFactionOne.setVisible(false);
+				lFactionTwo.setVisible(false);
+				lMap.setVisible(false);
 				
 			}
 			else if(source==bShowFactions)
@@ -132,6 +172,9 @@ public class losujMape extends JFrame implements ActionListener
 				
 				taInstruction.setVisible(false);
 				tMaps.setVisible(false);
+				lFactionOne.setVisible(false);
+				lFactionTwo.setVisible(false);
+				lMap.setVisible(false);
 			}
 			else if(source==bExport)
 			{
@@ -148,6 +191,9 @@ public class losujMape extends JFrame implements ActionListener
 				
 				tMaps.setVisible(false);
 				tFactions.setVisible(false);
+				lFactionOne.setVisible(false);
+				lFactionTwo.setVisible(false);
+				lMap.setVisible(false);
 			}
 		}
 		
