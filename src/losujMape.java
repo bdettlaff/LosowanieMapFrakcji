@@ -1,8 +1,12 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
 public class losujMape extends JFrame implements ActionListener
 {
@@ -13,8 +17,12 @@ public class losujMape extends JFrame implements ActionListener
 	JButton bExport;
 	JButton bInstruction;
 	JButton bExit;
-	JLabel lRandomMF;
-	JLabel lInstruction;
+	JLabel lHeader;
+	JLabel lVersion;
+	JTextArea taInstruction;
+	JTable tFactions;
+	JTable tMaps;
+	
 	
 	
 		public losujMape()
@@ -54,9 +62,35 @@ public class losujMape extends JFrame implements ActionListener
 			add(bExit);
 			bExit.addActionListener(this);
 					
-			lInstruction = new JLabel("INSTRUKCJA");
-			lInstruction.setBounds(275, 75, 150, 50);
-			add(lInstruction);
+			lHeader = new JLabel("MENU");
+			lHeader.setBounds(325, 75, 150, 50);
+			add(lHeader);
+			
+			lVersion = new JLabel("Wersja: 0.1");
+			lVersion.setBounds(410, 325, 150, 50);
+			add(lVersion);
+			
+			taInstruction = new JTextArea(10,15);
+			taInstruction.setBounds(230, 110, 225, 200);
+			taInstruction.setLineWrap(true);
+			taInstruction.setVisible(false);
+			add(taInstruction);
+			
+			
+			pokazMapy pokazM = new pokazMapy();
+			tMaps= new JTable(pokazM.tablica, pokazM.naglowek);
+			tMaps.setBounds(230, 110, 225, 192);
+			tMaps.setVisible(false);
+			add(tMaps);
+			
+			pokazFrakcje pokazF = new pokazFrakcje();
+			tFactions= new JTable(pokazF.tablica, pokazF.naglowek);
+			tFactions.setBounds(230, 110, 225, 65);
+			tFactions.setVisible(false);
+			add(tFactions);
+			
+			
+			
 		}
 		
 		
@@ -84,11 +118,20 @@ public class losujMape extends JFrame implements ActionListener
 			}
 			else if(source==bShowMaps)
 			{
+				tMaps.setVisible(true);
+				lHeader.setText("Mapy");
+				
+				taInstruction.setVisible(false);
+				tFactions.setVisible(false);
 				
 			}
 			else if(source==bShowFactions)
 			{
+				tFactions.setVisible(true);
+				lHeader.setText("Frakcje");
 				
+				taInstruction.setVisible(false);
+				tMaps.setVisible(false);
 			}
 			else if(source==bExport)
 			{
@@ -96,8 +139,15 @@ public class losujMape extends JFrame implements ActionListener
 			}	
 			else if(source==bInstruction)
 			{
-				lInstruction.setText("Tutaj bêdzie instrukcja \n ");
-						
+				taInstruction.setVisible(true);
+				lHeader.setText("Instrukcja");
+				taInstruction.setText("Program s³u¿y do losowania map oraz \nfrakcji w grze Dzikie Pola. \n"
+						+ "Poka¿ Mapy oraz Poka¿ Frakcje \nudostêpnia wszystkie mapy oraz frakcje, które s¹"
+						+ "uwzglêdniane podczas \nlosowania. Po klikniêciu eksport do TXT, na pulpicie pojawia "
+						+ "siê gotowy kod \nHTML do umieszczenia na stronie.");
+				
+				tMaps.setVisible(false);
+				tFactions.setVisible(false);
 			}
 		}
 		
