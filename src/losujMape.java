@@ -1,16 +1,17 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
+
 
 public class losujMape extends JFrame implements ActionListener
 {
 
+	private static final long serialVersionUID = 1L;
 	JButton bRandomMF; 
 	JButton bShowFactions;
 	JButton bShowMaps;
@@ -25,7 +26,8 @@ public class losujMape extends JFrame implements ActionListener
 	JTextArea taInstruction;
 	JTable tFactions;
 	JTable tMaps;
-	
+	String[] frakcja = new String[2];
+	String mapa = new String();
 
 	
 	
@@ -55,7 +57,7 @@ public class losujMape extends JFrame implements ActionListener
 			bExport.setBounds(50, 190, 150, 25);
 			add(bExport);
 			bExport.addActionListener(this);
-			bExport.setEnabled(false);
+			//bExport.setEnabled(false);
 			
 			bInstruction = new JButton("Instrukcja");
 			bInstruction.setBounds(50, 220, 150, 25);
@@ -80,7 +82,7 @@ public class losujMape extends JFrame implements ActionListener
 			taInstruction.setLineWrap(true);
 			taInstruction.setVisible(false);
 			add(taInstruction);
-			
+			taInstruction.setEditable(false);
 			
 			pokazMapy pokazM = new pokazMapy();
 			tMaps= new JTable(pokazM.tablica, pokazM.naglowek);
@@ -95,17 +97,17 @@ public class losujMape extends JFrame implements ActionListener
 			add(tFactions);		
 			
 			lFactionOne = new JLabel("Frakcja 1");
-			lFactionOne.setBounds(250, 110, 150, 50);
+			lFactionOne.setBounds(210, 110, 150, 50);
 			lFactionOne.setVisible(false);
 			add(lFactionOne);
 			
 			lFactionTwo = new JLabel("Frakcja 2");
-			lFactionTwo.setBounds(350, 110, 150, 50);
+			lFactionTwo.setBounds(345, 110, 150, 50);
 			lFactionTwo.setVisible(false);
 			add(lFactionTwo);
 			
 			lMap = new JLabel("Mapa");
-			lMap.setBounds(300, 130, 150, 50);
+			lMap.setBounds(280, 130, 150, 50);
 			lMap.setVisible(false);
 			add(lMap);
 			
@@ -116,7 +118,8 @@ public class losujMape extends JFrame implements ActionListener
 			
 			losujMape moje_okno = new losujMape();
 			moje_okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			moje_okno.setVisible(true);					
+			moje_okno.setVisible(true);		
+		
 		}
 
 
@@ -134,10 +137,10 @@ public class losujMape extends JFrame implements ActionListener
 				lFactionOne.setVisible(true);
 				lFactionTwo.setVisible(true);
 				lMap.setVisible(true);
+				lHeader.setText("Losowanie");
 				
 				losujFM randomMF = new losujFM();
-				String[] frakcja = new String[2];
-				String mapa = new String();
+				
 				
 				randomMF.losujNumeryFrakcji();
 				randomMF.losujNumerMapy();
@@ -178,7 +181,13 @@ public class losujMape extends JFrame implements ActionListener
 			}
 			else if(source==bExport)
 			{
-				
+				export plik = new export();
+				String sciezka = plik.pobierzPulpit();
+				try {
+					plik.zapiszPlik(sciezka, mapa, frakcja[0], frakcja[1]);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 			}	
 			else if(source==bInstruction)
 			{
